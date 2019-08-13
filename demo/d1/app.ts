@@ -104,8 +104,9 @@ axios({
   method: 'post',
   url: '/base/post',
   headers:{
-    'Content-Type': 'application/x-www-form-urlencoded;',
+    
   },
+  responseType: 'text',
   data: {
     a: 1,
     b: 2,
@@ -113,6 +114,8 @@ axios({
     d: new Date(),
     e: 1
   },
+}).then((res)=>{
+console.log(res);
 })
 
 // const ay = new Int32Array([21,43]);
