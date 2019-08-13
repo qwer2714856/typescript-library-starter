@@ -108,9 +108,16 @@ axios({
     b: 2,
     c: [1,2,3,4],
     d: new Date(),
-    e: {f:[22,4,5]}
-  }
+    e: 1
+  },
 })
+
+// const ay = new Int32Array([21,43]);
+// axios({
+//   method:'post',
+//   url: '/base/buffer',
+//   data: ay,
+// })
 
 // axios({
 //   method: 'post',
