@@ -103,6 +103,9 @@ import axios from '../../src/index'
 axios({
   method: 'post',
   url: '/base/post',
+  headers:{
+    'Content-Type': 'application/x-www-form-urlencoded;',
+  },
   data: {
     a: 1,
     b: 2,
