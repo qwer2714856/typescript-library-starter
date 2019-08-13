@@ -105,7 +105,10 @@ axios({
   url: '/base/post',
   data: {
     a: 1,
-    b: 2
+    b: 2,
+    c: [1,2,3,4],
+    d: new Date(),
+    e: {f:[22,4,5]}
   }
 })
 
