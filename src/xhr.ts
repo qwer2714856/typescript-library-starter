@@ -1,6 +1,7 @@
 import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types'
 
 import { parseHeader } from './tools/header'
+import { factoryError } from './tools/error'
 
 export default (config: AxiosRequestConfig): AxiosPromise => {
   return new Promise((resolve, reject) => {
@@ -33,7 +34,7 @@ export default (config: AxiosRequestConfig): AxiosPromise => {
     })
 
     Request.onerror = () => {
-      reject(new Error('network error'))
+      reject(factoryError('net work', config))
     }
 
     // 设置超时时间
@@ -71,7 +72,7 @@ export default (config: AxiosRequestConfig): AxiosPromise => {
       if (res.status >= 200 && res.status < 300) {
         resolve(res)
       } else {
-        reject(new Error(`Request Error Code ${res.status}`))
+        reject(factoryError('状态码xxx', config))
       }
     }
 

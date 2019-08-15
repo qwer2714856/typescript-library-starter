@@ -59,8 +59,10 @@ function registerBaseRouter () {
   })
 
   router.post('/base/post', function(req, res) {
-   console.log(req.body);
-   res.json(req.body);
+  //  console.log(req.body);
+  //  res.json(req.body);
+  res.status(500)
+  res.end();
   })
 
   router.post('/base/buffer', function(req, res) {

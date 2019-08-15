@@ -1,4 +1,4 @@
-import { AxiosRequestConfig, AxiosResponse, AxiosError } from '../types'
+import { AxiosRequestConfig, AxiosResponse, AxiosError as AxiosErrorType } from '../types'
 
 export class AxiosErrors extends Error {
   isAxiosError?: boolean
@@ -32,8 +32,8 @@ export function factoryError(
   code?: string | null,
   request?: any,
   response?: AxiosResponse
-): AxiosError {
-  const AxiosError: AxiosError = new AxiosErrors(message, config, code, request, response)
+): AxiosErrorType {
+  const AxiosError: AxiosErrorType = new AxiosErrors(message, config, code, request, response)
 
   return AxiosError
 }

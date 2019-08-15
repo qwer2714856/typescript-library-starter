@@ -1,4 +1,6 @@
-import axios from '../../src/index'
+import axios, {AxiosError} from '../../src/index'
+// 这里不能直接用源码里面的类型我们需要导出声明文件库外需要自己实现类型文件。 除了使用d.ts 自定义声明文件也可以使用 export * from 内部的ts文件
+
 
 // axios({
 //   method: 'get',
@@ -106,7 +108,7 @@ axios({
   headers:{
     
   },
-  responseType: 'text',
+  responseType: 'json',
   data: {
     a: 1,
     b: 2,
@@ -116,6 +118,9 @@ axios({
   },
 }).then((res)=>{
 console.log(res);
+},(res:AxiosError)=>{
+  console.log(res.config);
+  console.log(res.message);
 })
 
 // const ay = new Int32Array([21,43]);
