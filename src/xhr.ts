@@ -4,7 +4,7 @@ import { parseHeader } from './tools/header'
 
 export default (config: AxiosRequestConfig): AxiosPromise => {
   return new Promise((resolve, reject) => {
-    const { data = null, method = 'get', url, params, headers, responseType } = config
+    const { data = null, method = 'get', url, params, headers, responseType, timeout = 0 } = config
 
     const Request = new XMLHttpRequest()
 
@@ -32,8 +32,15 @@ export default (config: AxiosRequestConfig): AxiosPromise => {
       }
     })
 
+    Request.onerror = () => {
+      reject(new Error('network error'))
+    }
+
+    // 设置超时时间
+    Request.timeout = timeout
+
     Request.onreadystatechange = () => {
-      if (4 !== Request.readyState) {
+      if (4 !== Request.readyState || 0 === Request.status) {
         return
       } else {
         const responseHeader = Request.getAllResponseHeaders()
@@ -50,7 +57,21 @@ export default (config: AxiosRequestConfig): AxiosPromise => {
           config,
           request: Request
         }
-        resolve(response)
+        hd(response)
+      }
+    }
+
+    // 超时事件
+    Request.ontimeout = () => {
+      reject(new Error('timeout'))
+    }
+
+    // 处理请求返回状态码非200的情况
+    function hd(res: AxiosResponse): void {
+      if (res.status >= 200 && res.status < 300) {
+        resolve(res)
+      } else {
+        reject(new Error(`Request Error Code ${res.status}`))
       }
     }
 
