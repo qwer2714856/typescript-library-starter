@@ -102,25 +102,28 @@ import axios, {AxiosError} from '../../src/index'
 //   data: searchParams
 // })
 
-axios({
-  method: 'post',
-  url: '/base/post',
-  headers:{
+// axios({
+//   method: 'post',
+//   url: '/base/post',
+//   headers:{
     
-  },
-  responseType: 'json',
-  data: {
-    a: 1,
-    b: 2,
-    c: [1,2,3,4],
-    d: new Date(),
-    e: 1
-  },
-}).then((res)=>{
-console.log(res);
-},(res:AxiosError)=>{
-  console.log(res.config);
-  console.log(res.message);
+//   },
+//   responseType: 'json',
+//   data: {
+//     a: 1,
+//     b: 2,
+//     c: [1,2,3,4],
+//     d: new Date(),
+//     e: 1
+//   },
+// }).then((res)=>{
+// console.log(res);
+// },(res:AxiosError)=>{
+//   console.log(res.config);
+//   console.log(res.message);
+// })
+axios.get('/error/get').then((res)=>{
+  console.log(res);
 })
 
 // const ay = new Int32Array([21,43]);

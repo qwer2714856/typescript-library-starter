@@ -4,8 +4,8 @@
 export type Method = 'get' | 'post'
 
 export interface AxiosRequestConfig {
-  url: string
   method: Method
+  url?: string
   data?: any
   params?: any
   headers?: any
@@ -30,4 +30,17 @@ export interface AxiosError extends Error {
   code?: string | null
   request?: any
   response?: AxiosResponse
+}
+
+// 定义api的混合对象 描述类的公共方法
+export interface Axios {
+  request(config: AxiosRequestConfig): AxiosPromise
+
+  get(url: string, config?: AxiosRequestConfig): AxiosPromise
+
+  post(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise
+}
+
+export interface AxiosInstance extends Axios {
+  (config: AxiosRequestConfig): AxiosPromise
 }

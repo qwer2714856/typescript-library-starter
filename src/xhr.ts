@@ -13,7 +13,7 @@ export default (config: AxiosRequestConfig): AxiosPromise => {
       Request.responseType = responseType
     }
 
-    Request.open(method.toLocaleUpperCase(), url, true)
+    Request.open(method.toLocaleUpperCase(), url!, true) // url! !类型断言，断言是不会出问题的，这个问题的产生原来的url是比传后来改为可选所以报错了，使用参数!告诉编辑器这里不会有问题的。
 
     const arams = new URLSearchParams('')
     for (let i in data) {

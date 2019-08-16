@@ -14,3 +14,10 @@ export function getTypes(val: any): string {
 
   return (getTypes.toString.call(val) as string).slice(8, -1)
 }
+
+export function ext<T, U>(to: T, from: U): T & U {
+  for (const k in from) {
+    ;(to as T & U)[k] = from[k] as any
+  }
+  return to as T & U
+}
