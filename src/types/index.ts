@@ -35,6 +35,11 @@ export interface AxiosError extends Error {
 
 // 定义api的混合对象 描述类的公共方法
 export interface Axios {
+  interceptors: {
+    request: AxiosInterceptorManage<AxiosRequestConfig>
+    response: AxiosInterceptorManage<AxiosResponse>
+  }
+
   request<T = any>(config: AxiosRequestConfig): AxiosPromise<T>
 
   get<T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
@@ -46,4 +51,16 @@ export interface AxiosInstance extends Axios {
   <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
   // 函数重载
   <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+}
+
+export interface AxiosInterceptorManage<T = any> {
+  use(resolve: ResolveFn<T>, reject?: RejectFn<T>): number
+  eject(id: number): void
+}
+
+export interface ResolveFn<T = any> {
+  (val: T): T | Promise<T>
+}
+export interface RejectFn<T = any> {
+  (error: T): T | Promise<T>
 }

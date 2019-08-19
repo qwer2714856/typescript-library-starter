@@ -151,16 +151,32 @@ import axios, {AxiosError} from '../../src/index'
 
 
 // 定义返回类型的格式 - 这个是包在大报文里面的data
-interface ResponseData<T=any>{
-  code: number
-  result: T
-  message: string
-}
-interface User{
-  name: string
-  age: number
-}
+// interface ResponseData<T=any>{
+//   code: number
+//   result: T
+//   message: string
+// }
+// interface User{
+//   name: string
+//   age: number
+// }
 
-axios.get<ResponseData<User>>('/extend/user').then(res => {
-  console.log(res);
+// axios.get<ResponseData<User>>('/extend/user').then(res => {
+//   console.log(res);
+// })
+
+// 拦截器的demo
+axios.interceptors.request.use((config)=>{
+  console.log(1);
+  return config;
+})
+axios.interceptors.request.use((config)=>{
+  console.log(2);
+  return config;
+})
+axios({
+  url:'/interceptor/get',
+  method: 'get'
+}).then((res)=>{
+  console.log(res, '====>')
 })
