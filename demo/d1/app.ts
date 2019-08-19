@@ -122,9 +122,13 @@ import axios, {AxiosError} from '../../src/index'
 //   console.log(res.config);
 //   console.log(res.message);
 // })
-axios.get('/error/get').then((res)=>{
-  console.log(res);
-})
+// axios.get('/error/get').then((res)=>{
+//   console.log(res);
+// })
+
+// axios('/error/get').then((res)=>{
+//   console.log(res);
+// })
 
 // const ay = new Int32Array([21,43]);
 // axios({
@@ -144,3 +148,19 @@ axios.get('/error/get').then((res)=>{
 // }).then((res) => {
 //   console.log(res)
 // })
+
+
+// 定义返回类型的格式 - 这个是包在大报文里面的data
+interface ResponseData<T=any>{
+  code: number
+  result: T
+  message: string
+}
+interface User{
+  name: string
+  age: number
+}
+
+axios.get<ResponseData<User>>('/extend/user').then(res => {
+  console.log(res);
+})
