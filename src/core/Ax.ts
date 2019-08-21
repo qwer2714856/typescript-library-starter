@@ -3,6 +3,8 @@ import { Axios, AxiosRequestConfig, AxiosPromise } from '../types'
 
 import { axios } from '../axios'
 import Interceptor from './interceptor'
+import defaults from '../default'
+import mergeConfig from './mergeconfig'
 
 export interface Interceptors {
   request: Interceptor<AxiosRequestConfig>
@@ -15,24 +17,30 @@ interface PromiseChain<T = any> {
 }
 
 export default class Ax implements Axios {
+  // 默认配置
+  defaults: AxiosRequestConfig
   // 拦截器
   interceptors: Interceptors
-  constructor() {
+  constructor(initConfig: AxiosRequestConfig) {
     this.interceptors = {
       request: new Interceptor<AxiosRequestConfig>(),
       response: new Interceptor<AxiosResponse>()
     }
+    this.defaults = initConfig
   }
   //   request(config: AxiosRequestConfig): AxiosPromise {
   //     return axios(config)
   //   }
   // 函数重载 直接用any做 上面的函数
   request(url: any, config?: any): AxiosPromise {
-    const cfg = config || url || {}
+    let cfg = config || url || {}
 
     if ('string' === typeof url) {
       cfg.url = url
     }
+
+    // 合并配置
+    cfg = mergeConfig(this.defaults, cfg)
 
     // 链式调用拦截器
     const chain: PromiseChain<any>[] = [

@@ -1,7 +1,10 @@
+import { Method } from './../types/index'
 /**
  * header 设置
  */
 import { isObject } from './utils'
+import mergeConfig from '../core/mergeconfig'
+import { deepMerge } from './url'
 
 // 过滤掉Content-Type大小写不统一的问题。
 function normalHeadersName(headers: any, normalName: string = 'Content-Type') {
@@ -43,4 +46,18 @@ export function parseHeader(headers: string): any {
     })
   }
   return obj
+}
+
+export function flattrHeaders(headers: any, method: Method): any {
+  if (!headers) {
+    return headers
+  }
+  // 提取headers的post 默认的头信息
+  headers = deepMerge(headers.common, headers[method], headers)
+
+  // 删除无用的成员属性
+  const methodDel = ['get', 'post', 'common']
+  methodDel.forEach(i => delete headers[i])
+
+  return headers
 }
