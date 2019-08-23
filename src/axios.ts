@@ -12,8 +12,17 @@ import { ext } from './tools/utils'
 import defaults from './default'
 import transform from './core/transform'
 import mergeConfig from './core/mergeconfig'
+import Ct from './cancel/ct'
+import { isCancel } from './cancel/cancel'
+
+function throwIfCancelRequested(config: AxiosRequestConfig): void {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequestd()
+  }
+}
 
 function axios(config: AxiosRequestConfig): AxiosPromise {
+  throwIfCancelRequested(config)
   processConfig(config)
   return XHR(config).then(res => {
     res.data = transform(res.data, res.headers, res.config.transformResponse)
@@ -49,6 +58,8 @@ const k: AxiosStatic = ft(defaults)
 k.create = (config?: AxiosRequestConfig) => {
   return ft(mergeConfig(defaults, config))
 }
+k.CancelToken = Ct
+k.isCancel = isCancel
 
 export { axios }
 export default k

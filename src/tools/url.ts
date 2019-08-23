@@ -95,3 +95,28 @@ export function deepMerge(...objs: any[]): any {
 
   return result
 }
+const urlParseUrl = document.createElement('a')
+const currentOriginUrl = resolveUrl(window.location.href)
+function resolveUrl(url: string): any {
+  urlParseUrl.setAttribute('href', url)
+  const { protocol, host, port } = urlParseUrl
+  return {
+    protocol,
+    host,
+    port
+  }
+}
+export function isSomeOrigin(requestUrl: string): boolean {
+  // 判断是否同源 通过协议 host
+  // 采用一个技巧创建一个a标签，解析出protocol host
+  const parseOrigin = resolveUrl(requestUrl)
+  let rt: boolean = true
+  for (let i in parseOrigin) {
+    if (currentOriginUrl[i] !== parseOrigin[i]) {
+      rt = false
+      break
+    }
+  }
+
+  return rt
+}

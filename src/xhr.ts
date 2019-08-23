@@ -2,10 +2,24 @@ import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types'
 
 import { parseHeader } from './tools/header'
 import { factoryError } from './tools/error'
+import { isSomeOrigin } from './tools/url'
+import cookie from './tools/cookie'
 
 export default (config: AxiosRequestConfig): AxiosPromise => {
   return new Promise((resolve, reject) => {
-    const { data = null, method = 'get', url, params, headers, responseType, timeout = 0 } = config
+    const {
+      data = null,
+      method = 'get',
+      url,
+      params,
+      headers,
+      responseType,
+      timeout = 0,
+      cancelToken,
+      withCredentials,
+      xsrfCookieName,
+      xsrfHeaderName
+    } = config
 
     const Request = new XMLHttpRequest()
 
@@ -24,6 +38,15 @@ export default (config: AxiosRequestConfig): AxiosPromise => {
     // Request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;'); 当没有设置头，URLSearchParams 直接发他默认使用的是这个头。
     // Request.setRequestHeader('Content-Type', 'multipart/form-data');
     // Request.setRequestHeader('Content-Type', 'application/json');
+
+    // 设置防xsrf攻击头
+    if ((withCredentials || isSomeOrigin(url!)) && xsrfCookieName) {
+      // 服务器种的token拿出来
+      const xsrfValue = cookie.read(xsrfCookieName)
+      if (xsrfValue && xsrfHeaderName) {
+        headers[xsrfHeaderName] = xsrfValue
+      }
+    }
 
     Object.keys(headers).forEach(key => {
       if (null === data && key.toLocaleLowerCase() === 'content-type') {
@@ -74,6 +97,19 @@ export default (config: AxiosRequestConfig): AxiosPromise => {
       } else {
         reject(factoryError('状态码xxx', config))
       }
+    }
+
+    if (cancelToken) {
+      cancelToken.promise.then(res => {
+        // 中断请求
+        Request.abort()
+        reject(res)
+      })
+    }
+
+    // 支持跨域的cookie的传送。
+    if (withCredentials) {
+      Request.withCredentials = withCredentials
     }
 
     Request.send(data)

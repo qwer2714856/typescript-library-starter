@@ -174,9 +174,19 @@ axios.interceptors.request.use((config)=>{
   console.log(2);
   return config;
 })
+const tk = axios.CancelToken;
+const ifc = tk.source();
+
 axios({
   url:'/interceptor/get',
-  method: 'get'
+  method: 'get',
+  cancelToken: ifc.token,
+  xsrfCookieName:'XSRF-TOKEN',
+  xsrfHeaderName:'token',
+  withCredentials:true,
 }).then((res)=>{
   console.log(res, '====>')
+})
+setTimeout(()=>{
+  ifc.cancel("ccccc");
 })

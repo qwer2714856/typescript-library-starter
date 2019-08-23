@@ -14,6 +14,10 @@ export interface AxiosRequestConfig {
   [propName: string]: any
   transformRequest?: AxiosTransForm | AxiosTransForm[]
   transformResponse?: AxiosTransForm | AxiosTransForm[]
+  cancelToken?: CT
+  withCredentials?: boolean
+  xsrfCookieName?: string
+  xsrfHeaderName?: string
 }
 
 // 使用泛型参数格式化返回参数 <T = any> 任意类型可传可不传
@@ -59,6 +63,10 @@ export interface AxiosInstance extends Axios {
 
 export interface AxiosStatic extends AxiosInstance {
   create(config?: AxiosRequestConfig): AxiosInstance
+
+  CancelToken: CancelTokenStatic
+  Cancel: CancelStatic
+  isCancel: (value: any) => boolean
 }
 
 export interface AxiosInterceptorManage<T = any> {
@@ -74,4 +82,29 @@ export interface RejectFn<T = any> {
 }
 export interface AxiosTransForm {
   (data: any, headers?: any): any
+}
+export interface CT {
+  promise: Promise<Cancel>
+  rs?: Cancel
+  throwIfRequestd(): void
+}
+export interface CR {
+  (message: string): void
+}
+export interface CRT {
+  (cr: CR): void
+}
+export interface CancelTokenSource {
+  token: CT
+  cancel: CR
+}
+export interface CancelTokenStatic {
+  new (crt: CRT): CT
+  source(): CancelTokenSource
+}
+export interface Cancel {
+  message?: string
+}
+export interface CancelStatic {
+  new (message?: string): Cancel
 }
