@@ -184,6 +184,18 @@ axios({
   xsrfCookieName:'XSRF-TOKEN',
   xsrfHeaderName:'token',
   withCredentials:true,
+  onDownloadProgress:(e) => {
+    // 进度库nprogress
+    // 安装对应的types文件否则报错 
+    // e
+    //   loaded 现在加载了几个
+    //   total 一共多少个
+    console.log(e);
+  },
+  auth:{
+    username:"aaaa",
+    password:"bbbb"
+  }
 }).then((res)=>{
   console.log(res, '====>')
 })
