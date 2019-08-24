@@ -18,6 +18,12 @@ export interface AxiosRequestConfig {
   withCredentials?: boolean
   xsrfCookieName?: string
   xsrfHeaderName?: string
+  onDownloadProgress?: (e: ProgressEvent) => void
+  onUploadProgress?: (e: ProgressEvent) => void
+  auth?: AxiosBasicCs
+  validateStatus?: (status: number) => boolean
+  paramsSerializer?: (params: any) => string
+  baseURL?: string
 }
 
 // 使用泛型参数格式化返回参数 <T = any> 任意类型可传可不传
@@ -107,4 +113,9 @@ export interface Cancel {
 }
 export interface CancelStatic {
   new (message?: string): Cancel
+}
+
+export interface AxiosBasicCs {
+  username: string
+  password: string
 }

@@ -3,7 +3,7 @@
  *
  */
 import { AxiosRequestConfig, AxiosPromise, AxiosInstance, AxiosStatic } from './types/index'
-import { fmtUrl } from './tools/url'
+import { fmtUrl, isAbUrl, combineUrl } from './tools/url'
 import { processHeaders, flattrHeaders } from './tools/header'
 import { transformResponse, transformRequest } from './tools/data'
 import XHR from './xhr'
@@ -37,9 +37,13 @@ function processConfig(config: AxiosRequestConfig): void {
 }
 
 function transformUrl(config: AxiosRequestConfig): string {
-  const { url = '', data } = config
+  let { url = '', data, paramsSerializer, baseURL } = config
 
-  return fmtUrl(url, data)
+  if (baseURL && !isAbUrl(url)) {
+    url = combineUrl(baseURL, url)
+  }
+
+  return fmtUrl(url, data, paramsSerializer)
 }
 
 function transformData(config: AxiosRequestConfig): any {

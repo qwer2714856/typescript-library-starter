@@ -21,3 +21,12 @@ export function ext<T, U>(to: T, from: U): T & U {
   }
   return to as T & U
 }
+
+// 判断是否是文件
+export function isFormData(val: any): val is FormData {
+  return void 0 !== typeof val && val instanceof FormData
+}
+
+export function isUrlSearchParams(val: any): val is URLSearchParams {
+  return void 0 !== val && val instanceof URLSearchParams
+}

@@ -8,7 +8,7 @@ const statKeyFromVal2 = ['url', 'params', 'data']
 statKeyFromVal2.forEach(i => {
   stat[i] = fromVTStat
 })
-const deepKeyMg = ['headers']
+const deepKeyMg = ['headers', 'auth']
 deepKeyMg.forEach(i => {
   stat[i] = deepMergeStat
 })

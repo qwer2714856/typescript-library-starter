@@ -4,6 +4,7 @@ import { parseHeader } from './tools/header'
 import { factoryError } from './tools/error'
 import { isSomeOrigin } from './tools/url'
 import cookie from './tools/cookie'
+import { isFormData } from './tools/utils'
 
 export default (config: AxiosRequestConfig): AxiosPromise => {
   return new Promise((resolve, reject) => {
@@ -18,7 +19,11 @@ export default (config: AxiosRequestConfig): AxiosPromise => {
       cancelToken,
       withCredentials,
       xsrfCookieName,
-      xsrfHeaderName
+      xsrfHeaderName,
+      onDownloadProgress,
+      onUploadProgress,
+      auth,
+      validateStatus
     } = config
 
     const Request = new XMLHttpRequest()
@@ -46,6 +51,15 @@ export default (config: AxiosRequestConfig): AxiosPromise => {
       if (xsrfValue && xsrfHeaderName) {
         headers[xsrfHeaderName] = xsrfValue
       }
+    }
+
+    // 判断是否是formdata
+    if (isFormData(data)) {
+      delete headers['Content-Type']
+    }
+
+    if (auth) {
+      headers['Authorization'] = 'Basic ' + btoa(auth.username + ':' + auth.password)
     }
 
     Object.keys(headers).forEach(key => {
@@ -85,6 +99,15 @@ export default (config: AxiosRequestConfig): AxiosPromise => {
       }
     }
 
+    // 下载事件
+    if (onDownloadProgress) {
+      Request.onprogress = onDownloadProgress
+    }
+    // 上传事件
+    if (onUploadProgress) {
+      Request.upload.onprogress = onUploadProgress
+    }
+
     // 超时事件
     Request.ontimeout = () => {
       reject(new Error('timeout'))
@@ -92,7 +115,7 @@ export default (config: AxiosRequestConfig): AxiosPromise => {
 
     // 处理请求返回状态码非200的情况
     function hd(res: AxiosResponse): void {
-      if (res.status >= 200 && res.status < 300) {
+      if (!validateStatus || validateStatus(res.status)) {
         resolve(res)
       } else {
         reject(factoryError('状态码xxx', config))

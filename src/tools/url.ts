@@ -2,7 +2,7 @@
  * 工具
  */
 
-import { isDate, isObject } from './utils'
+import { isDate, isObject, isUrlSearchParams } from './utils'
 
 export function encode(val: string): string {
   let rt = ''
@@ -19,45 +19,54 @@ export function encode(val: string): string {
   return rt
 }
 
-export function fmtUrl(baseUrl: string, params?: any): string {
+export function fmtUrl(
+  baseUrl: string,
+  params?: any,
+  paramsSerializer?: (params: any) => string
+): string {
   const rt: string[] = []
 
   if (!params) {
     return baseUrl
   }
+  let join: string
+  if (paramsSerializer) {
+    join = paramsSerializer(params)
+  } else if (isUrlSearchParams(params)) {
+    join = params.toString()
+  } else {
+    Object.keys(params).forEach(key => {
+      // 根据值判断类型
+      const d = params[key]
 
-  Object.keys(params).forEach(key => {
-    // 根据值判断类型
-    const d = params[key]
-
-    // 如果是null 或者 undefined 直接不传
-    if (null === d || void 0 === typeof d) {
-      return
-    }
-
-    // 如果值是数据直接用数组，不是数组就规范为一个数组
-    let ay: any[] = []
-    key += '[]'
-    if (Array.isArray(d)) {
-      ay = d
-    } else {
-      ay = [d]
-    }
-
-    ay.forEach(v => {
-      if (isDate(v)) {
-        v = v.toISOString()
-      } else if (isObject(v)) {
-        v = JSON.stringify(v)
+      // 如果是null 或者 undefined 直接不传
+      if (null === d || void 0 === typeof d) {
+        return
       }
 
-      rt.push(`${encode(key)}=${v}`)
+      // 如果值是数据直接用数组，不是数组就规范为一个数组
+      let ay: any[] = []
+      key += '[]'
+      if (Array.isArray(d)) {
+        ay = d
+      } else {
+        ay = [d]
+      }
+
+      ay.forEach(v => {
+        if (isDate(v)) {
+          v = v.toISOString()
+        } else if (isObject(v)) {
+          v = JSON.stringify(v)
+        }
+
+        rt.push(`${encode(key)}=${v}`)
+      })
     })
-  })
 
-  // 把数组键值对拆出来变@
-  const join = rt.join('&')
-
+    // 把数组键值对拆出来变@
+    join = rt.join('&')
+  }
   if (join) {
     const hash = baseUrl.lastIndexOf('#')
     if (-1 !== hash) {
@@ -119,4 +128,11 @@ export function isSomeOrigin(requestUrl: string): boolean {
   }
 
   return rt
+}
+
+export function isAbUrl(url: string): boolean {
+  return /(^[a-z][a-z\d+\-\.]*:)?\/\//i.test(url)
+}
+export function combineUrl(surl: string, toUrl?: string): string {
+  return toUrl ? surl.replace(/\/+$/, '') + '/' + toUrl.replace(/^\/+/, '') : surl
 }
