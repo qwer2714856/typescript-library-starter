@@ -52,7 +52,7 @@ function transformData(config: AxiosRequestConfig): any {
 
 function ft(defaults: AxiosRequestConfig): AxiosStatic {
   const ax = new Ax(defaults)
-
+  // @ts-ignore
   const instance: AxiosInstance = Ax.prototype.request.bind(ax)
   ext(instance, ax)
 

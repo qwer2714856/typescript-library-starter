@@ -1,11 +1,11 @@
 {
-  "name": "yes",
+  "name": "axios-dlc",
   "version": "0.0.0",
   "description": "",
   "keywords": [],
-  "main": "dist/yes.umd.js",
-  "module": "dist/yes.es5.js",
-  "typings": "dist/types/yes.d.ts",
+  "main": "dist/axios.umd.js",
+  "module": "dist/axios.es5.js",
+  "typings": "dist/types/axios.d.ts",
   "files": [
     "dist"
   ],
@@ -32,7 +32,9 @@
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged",
-    "travis-deploy-once": "travis-deploy-once"
+    "travis-deploy-once": "travis-deploy-once",
+    "prepub":"npm run test:prod && npm run build",
+    "pub": "sh release.sh"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [

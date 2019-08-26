@@ -48,3 +48,24 @@ super 测试用例的坑 如果构造器里面 new (a?string):xx 如果只走了
 
 ## 请求模块单元测试
 jasmine-ajax 它会根据规范根据请求定义出假的响应。 它依赖于jasmine-core 以及 @types/jasmine-ajax
+
+
+### 编译和打包
+1、npm login 登录
+2、报的编译和打包 rollup 编译和打包相比webpack更是适合编译和打包一些js库
+3、修改配置后我们来运行打包npm run build
+4、生成dist目录
+   lib 对应ts的模块目录文件，编译后的。
+   types 声明文件
+   axios.xxxxxx rollup打包生成的目标文件
+
+5、自动化部署
+   编写自动化部署脚本
+   查看包名是否被占用可以用npm view 包名 没有就显示not found了
+   package rexxx 配置github仓库地址
+
+6、 配置 prepub pub  npm run pub 会自动run prepub
+
+7、 编写release.sh
+
+8、 package files: ["dist"] // 这下面的发布到npm上
