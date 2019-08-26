@@ -69,3 +69,11 @@ jasmine-ajax 它会根据规范根据请求定义出假的响应。 它依赖于
 7、 编写release.sh
 
 8、 package files: ["dist"] // 这下面的发布到npm上
+
+在函数上编写
+/* istanbul ignore next */ 让函数不被测试测试到，放到函数同上
+
+创建实际项目引用axios-dlc
+import axios from 'axios-dlc' 应用的是axios.es5.js 因为package.json中配置了  "module": "dist/axios.es5.js", 没有再找main 
+
+纯js项目引用 vue-sell 项目 也是import搞
