@@ -46,10 +46,11 @@
     }
   },
   "jest": {
+    
     "transform": {
       ".(ts|tsx)": "ts-jest"
     },
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "moduleFileExtensions": [
       "ts",
@@ -70,6 +71,9 @@
     },
     "collectCoverageFrom": [
       "src/*.{js,ts}"
+    ],
+    "setupFiles": [
+      "<rootDir>/test/boot.ts"
     ]
   },
   "prettier": {
@@ -84,6 +88,7 @@
   "devDependencies": {
     "@commitlint/cli": "^7.1.2",
     "@commitlint/config-conventional": "^7.1.2",
+    "@types/jasmine-ajax": "^3.1.40",
     "@types/jest": "^23.3.2",
     "@types/node": "^10.14.15",
     "body-parse": "^0.1.0",
@@ -94,6 +99,8 @@
     "cz-conventional-changelog": "^2.1.0",
     "express": "^4.17.1",
     "husky": "^1.0.1",
+    "jasmine-ajax": "^4.0.0",
+    "jasmine-core": "^3.4.0",
     "jest": "^23.6.0",
     "jest-config": "^23.6.0",
     "lint-staged": "^8.0.0",
