@@ -1,11 +1,11 @@
 {
-  "name": "--libraryname--",
+  "name": "axios-ad",
   "version": "0.0.0",
   "description": "",
   "keywords": [],
-  "main": "dist/--libraryname--.umd.js",
-  "module": "dist/--libraryname--.es5.js",
-  "typings": "dist/types/--libraryname--.d.ts",
+  "main": "dist/axios-ad.umd.js",
+  "module": "dist/axios-ad.es5.js",
+  "typings": "dist/types/axios-ad.d.ts",
   "files": [
     "dist"
   ],
