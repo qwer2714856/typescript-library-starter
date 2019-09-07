@@ -31,6 +31,12 @@ App.use(BodyParser.urlencoded({ extended: true }));
 const router = Express.Router();
 
 // 路由条目
+// demo 1
+router.get('/demo1', (req, res) => {
+    res.json({
+        msg: `hello world`
+    })
+});
 
 App.use(router);
 
