@@ -6,7 +6,10 @@ Axios({
         a:1,
         b:2,
     },
+    responseType: 'json',
     headers:{
-
+        // 'content-type':'application/x-www-form-urlencoded;charset=utf-8',
     },
+}).then((res)=>{
+    console.log(res);
 })

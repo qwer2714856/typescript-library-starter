@@ -1,20 +1,45 @@
-import { AxiosConfig } from '../types'
+import { AxiosConfig, AxiosPromise, AxiosResponse } from '../types'
 
-function xhr(config: AxiosConfig): void {
-  const { data = null, url, method = 'get' } = config
+function xhr(config: AxiosConfig): AxiosPromise {
+  return new Promise((resolve, reject) => {
+    const { data = null, url, method = 'get', headers, responseType } = config
 
-  let requestObj: XMLHttpRequest = new XMLHttpRequest()
+    let requestObj: XMLHttpRequest = new XMLHttpRequest()
 
-  requestObj.open(method.toUpperCase(), url, true)
+    if (responseType) {
+      requestObj.responseType = responseType
+    }
 
-  // 设置请求头
-  if (config.headers) {
-    Object.keys(config.headers).forEach(i => {
-      requestObj.setRequestHeader(i, config.headers[i])
+    requestObj.open(method.toUpperCase(), url, true)
+
+    // 设置请求头
+    Object.keys(headers).forEach(i => {
+      if (null === data && i.toLowerCase() === 'content-type') {
+        delete headers[i]
+      } else {
+        requestObj.setRequestHeader(i, headers[i])
+      }
     })
-  }
 
-  requestObj.send(data)
+    // 接受数据
+    requestObj.onreadystatechange = () => {
+      if (requestObj.readyState !== 4) {
+        return
+      }
+      // 构造response
+      const response: AxiosResponse = {
+        headers: requestObj.getAllResponseHeaders(),
+        data: responseType !== 'text' ? requestObj.response : requestObj.responseText,
+        status: requestObj.status,
+        statusText: requestObj.statusText,
+        config,
+        request: requestObj
+      }
+      resolve(response)
+    }
+
+    requestObj.send(data)
+  })
 }
 
 export default xhr
