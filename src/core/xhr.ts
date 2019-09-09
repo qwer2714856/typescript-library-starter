@@ -4,12 +4,16 @@ import { transformResponse } from '../utils/data'
 
 function xhr(config: AxiosConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { data = null, url, method = 'get', headers, responseType } = config
+    const { data = null, url, method = 'get', headers, responseType, timeout = 0 } = config
 
     let requestObj: XMLHttpRequest = new XMLHttpRequest()
 
     if (responseType) {
       requestObj.responseType = responseType
+    }
+
+    if (timeout) {
+      requestObj.timeout = timeout // 单位毫秒
     }
 
     requestObj.open(method.toUpperCase(), url, true)
@@ -39,7 +43,27 @@ function xhr(config: AxiosConfig): AxiosPromise {
         config,
         request: requestObj
       }
-      resolve(response)
+      responseProcess(response)
+    }
+
+    // 异常处理
+    requestObj.onerror = () => {
+      reject(new Error('net work error'))
+    }
+
+    // 接收超时时间
+    requestObj.ontimeout = () => {
+      reject(new Error('timeout'))
+    }
+
+    // 对返回数据加上异常处理
+    function responseProcess(response: AxiosResponse): void {
+      const { status } = response
+      if (status >= 200 && status < 300) {
+        resolve(response)
+      } else {
+        reject(new Error('error code is' + status))
+      }
     }
 
     requestObj.send(data)

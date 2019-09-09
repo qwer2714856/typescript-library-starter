@@ -10,6 +10,7 @@ export interface AxiosConfig {
   data?: any
   headers?: any
   responseType?: XMLHttpRequestResponseType
+  timeout?: number
 }
 
 // 数据返回格式
