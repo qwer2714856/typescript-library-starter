@@ -6,6 +6,6 @@ export type RequestType = 'GET' | 'get' | 'post' | 'POST'
 export interface AxiosConfig {
   url: string
   method?: RequestType
-  params?: string
+  params?: any
   data?: any
 }

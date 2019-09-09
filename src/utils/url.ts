@@ -1,7 +1,8 @@
-import { isArray, isObject } from './index'
+import { isArray, isObject, isDate } from './index'
 
 export const buildUrl = (url: string, params?: any): string => {
   let result: string[] = []
+  let resultUrl = url
 
   if (!params || !isObject(params)) {
     return url
@@ -25,14 +26,26 @@ export const buildUrl = (url: string, params?: any): string => {
       ay.forEach(v => {
         if (isObject(v)) {
           v = JSON.stringify(v)
+        } else if (isDate(v)) {
+          v = v.toISOString()
         }
-
-        result.push(`${encode(key)}=${v}`)
+        // 这里如果加上对日期的判断，不能用返回boolean 只能用 xxx is Date 类型谓词保护。
+        // 详情移步到utils isDate实现使用了这种断言{//在花括号里面编辑器能推断出类型}
+        result.push(`${encode(key)}=${encode(v)}`)
       })
     })
   }
 
-  return result.join('&')
+  if (result.length) {
+    // 如果有#干掉
+    const lst = resultUrl.lastIndexOf('#')
+    ;-1 !== lst && (resultUrl = resultUrl.substring(0, lst))
+
+    const fn = resultUrl.indexOf('?') > -1 ? '&' : '?'
+    resultUrl += fn + result.join('&')
+  }
+
+  return resultUrl
 }
 
 export function encode(val: string): string {

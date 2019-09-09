@@ -38,6 +38,10 @@ router.get('/demo1', (req, res) => {
     })
 });
 
+router.get('/params', (req,res) => {
+    res.json(req.query)
+})
+
 App.use(router);
 
 const port = process.env.PORT || 8080;
