@@ -20,3 +20,20 @@ export function processHeaders(headers: any, data: any): any {
     }
   }
 }
+
+export function parseHeaders(headers: string): any {
+  let p = Object.create(null)
+
+  if (headers) {
+    headers.split('/r/n').forEach(i => {
+      let [key, v] = i.split(':')
+
+      key = key.trim().toLowerCase()
+      v = v.trim()
+
+      key && (p[key] = v)
+    })
+  }
+
+  return p
+}

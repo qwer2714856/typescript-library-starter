@@ -1,4 +1,6 @@
 import { AxiosConfig, AxiosPromise, AxiosResponse } from '../types'
+import { parseHeaders } from '../utils/headers'
+import { transformResponse } from '../utils/data'
 
 function xhr(config: AxiosConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
@@ -28,8 +30,10 @@ function xhr(config: AxiosConfig): AxiosPromise {
       }
       // 构造response
       const response: AxiosResponse = {
-        headers: requestObj.getAllResponseHeaders(),
-        data: responseType !== 'text' ? requestObj.response : requestObj.responseText,
+        headers: parseHeaders(requestObj.getAllResponseHeaders()),
+        data: transformResponse(
+          responseType !== 'text' ? requestObj.response : requestObj.responseText
+        ),
         status: requestObj.status,
         statusText: requestObj.statusText,
         config,

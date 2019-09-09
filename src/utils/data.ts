@@ -8,6 +8,16 @@ export function transformRequest(data: any): any {
   return data
 }
 
-export function transformResponse() {
-  // TODO
+export function transformResponse(data: any): any {
+  let rt = data
+
+  if (typeof data === 'string') {
+    try {
+      rt = JSON.parse(data)
+    } catch (e) {
+      // todo
+    }
+  }
+
+  return rt
 }
