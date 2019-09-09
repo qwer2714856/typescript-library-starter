@@ -8,4 +8,5 @@ export interface AxiosConfig {
   method?: RequestType
   params?: any
   data?: any
+  headers?: any
 }

@@ -7,6 +7,13 @@ function xhr(config: AxiosConfig): void {
 
   requestObj.open(method.toUpperCase(), url, true)
 
+  // 设置请求头
+  if (config.headers) {
+    Object.keys(config.headers).forEach(i => {
+      requestObj.setRequestHeader(i, config.headers[i])
+    })
+  }
+
   requestObj.send(data)
 }
 

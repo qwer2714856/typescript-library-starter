@@ -40,6 +40,10 @@ router.get('/demo1', (req, res) => {
 
 router.get('/params', (req,res) => {
     res.json(req.query)
+});
+
+router.post('/data', (req,res) => {
+    res.json(req.body);
 })
 
 App.use(router);
