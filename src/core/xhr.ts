@@ -1,6 +1,7 @@
 import { AxiosConfig, AxiosPromise, AxiosResponse } from '../types'
 import { parseHeaders } from '../utils/headers'
 import { transformResponse } from '../utils/data'
+import { createAxiosErrorcs } from '../utils/axioserror'
 
 function xhr(config: AxiosConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
@@ -62,7 +63,9 @@ function xhr(config: AxiosConfig): AxiosPromise {
       if (status >= 200 && status < 300) {
         resolve(response)
       } else {
-        reject(new Error('error code is' + status))
+        reject(
+          createAxiosErrorcs(true, config, '异常', '状态码异常', status + '', requestObj, response)
+        )
       }
     }
 

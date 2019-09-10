@@ -1,4 +1,4 @@
-import Axios from '../../src/index';
+import Axios,{ AxiosError } from '../../src/index';
 Axios({
     url: '/data',
     method: 'POST',
@@ -11,4 +11,6 @@ Axios({
     },
 }).then((res)=>{
     console.log(res);
+}, (e:AxiosError) => {
+console.log(e);
 })

@@ -43,7 +43,7 @@ router.get('/params', (req,res) => {
 });
 
 router.post('/data', (req,res) => {
-    res.status(200);
+    res.status(399);
     res.json(req.body);
 })
 

@@ -25,3 +25,12 @@ export interface AxiosResponse {
 
 // Axios 返回对象 promise resolve 返回的就是Promise<T> 的 T
 export interface AxiosPromise<T = any> extends Promise<AxiosResponse> {}
+
+// 错误接口
+export interface AxiosError extends Error {
+  isAxiosError: boolean
+  config: AxiosConfig
+  code?: string | null
+  request?: any
+  response?: AxiosResponse
+}
