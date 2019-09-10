@@ -5,7 +5,7 @@ import { createAxiosErrorcs } from '../utils/axioserror'
 
 function xhr(config: AxiosConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { data = null, url, method = 'get', headers, responseType, timeout = 0 } = config
+    const { data = null, url, method = 'get', headers = {}, responseType, timeout = 0 } = config
 
     let requestObj: XMLHttpRequest = new XMLHttpRequest()
 
@@ -17,7 +17,7 @@ function xhr(config: AxiosConfig): AxiosPromise {
       requestObj.timeout = timeout // 单位毫秒
     }
 
-    requestObj.open(method.toUpperCase(), url, true)
+    requestObj.open(method.toUpperCase(), url!, true)
 
     // 设置请求头
     Object.keys(headers).forEach(i => {

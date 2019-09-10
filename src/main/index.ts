@@ -16,7 +16,7 @@ function processConfig(config: AxiosConfig): void {
   // 处理params
   const { url, params, headers = {}, data } = config
   // 格式换params
-  config.url = buildUrl(url, params)
+  config.url = buildUrl(url!, params)
   // 处理header 加默认的content-type
   processHeaders(headers, data)
   // 处理data

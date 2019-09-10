@@ -14,3 +14,7 @@ Axios({
 }, (e:AxiosError) => {
 console.log(e);
 })
+
+Axios.get('/demo1').then(res=>{
+    console.log(res);
+})

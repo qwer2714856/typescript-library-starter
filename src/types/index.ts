@@ -4,7 +4,7 @@
 
 export type RequestType = 'GET' | 'get' | 'post' | 'POST'
 export interface AxiosConfig {
-  url: string
+  url?: string
   method?: RequestType
   params?: any
   data?: any
@@ -33,4 +33,19 @@ export interface AxiosError extends Error {
   code?: string | null
   request?: any
   response?: AxiosResponse
+}
+
+// 描述主入口的接口
+export interface MAxios {
+  request(config: AxiosConfig): AxiosPromise
+
+  get(url: string, config?: AxiosConfig): AxiosPromise
+
+  post(url: string, data?: any, config?: AxiosConfig): AxiosPromise
+}
+// 描述主入口的混合类型接口
+export interface AxiosInstance extends MAxios {
+  (config: AxiosConfig): AxiosPromise
+  (url: string, config?: AxiosConfig): AxiosPromise
+  (url: string, data?: any, config?: AxiosConfig): AxiosPromise
 }
