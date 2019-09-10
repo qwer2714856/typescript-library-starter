@@ -1,4 +1,13 @@
-import Axios,{ AxiosError } from '../../src/index';
+import Axios,{ AxiosError, AxiosConfig, AxiosResponse } from '../../src/index';
+
+Axios.interceptors.request.use((config:AxiosConfig)=>{
+    console.log(123);
+    return config;
+})
+Axios.interceptors.response.use((res:AxiosResponse)=>{
+    console.log(res, '====>>');
+    return res
+})
 Axios({
     url: '/data',
     method: 'POST',
@@ -15,6 +24,6 @@ Axios({
 console.log(e);
 })
 // 注意这里即便是定义了类型如果服务端不按照约定来照样报错。推导不等于约定。
-Axios.get<{message:string}>('/demo1').then(res=>{
-    console.log(res.data.message)
-})
+// Axios.get<{message:string}>('/demo1').then(res=>{
+//     console.log(res.data.message)
+// })

@@ -1,3 +1,5 @@
+import { Interceptors } from '../core/axioscore'
+
 /**
  * 类型声明
  */
@@ -37,6 +39,8 @@ export interface AxiosError extends Error {
 
 // 描述主入口的接口
 export interface MAxios {
+  interceptors: Interceptors
+
   request<T = any>(config: AxiosConfig): AxiosPromise<T>
 
   get<T = any>(url: string, config?: AxiosConfig): AxiosPromise<T>
@@ -47,4 +51,19 @@ export interface MAxios {
 export interface AxiosInstance extends MAxios {
   <T = any>(config: AxiosConfig): AxiosPromise<T>
   <T = any>(url: string, config?: AxiosConfig): AxiosPromise<T>
+}
+
+// 定义拦截器
+export interface AxiosInceptor<T = any> {
+  // number 做为拦截器的id用来删除用
+  use(resolve: ResolveFn<T>, reject?: RejectFn): number
+  // 删除
+  eject(id: number): void
+}
+
+export interface ResolveFn<T = any> {
+  (val: T): T | Promise<T>
+}
+export interface RejectFn {
+  (val: any): any
 }
