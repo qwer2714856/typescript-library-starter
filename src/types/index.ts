@@ -14,8 +14,8 @@ export interface AxiosConfig {
 }
 
 // 数据返回格式
-export interface AxiosResponse {
-  data: any // 数据
+export interface AxiosResponse<T = any> {
+  data: T // 数据
   status: number // 状态码
   statusText: string // 状态描述
   headers: any // 响应头
@@ -24,7 +24,7 @@ export interface AxiosResponse {
 }
 
 // Axios 返回对象 promise resolve 返回的就是Promise<T> 的 T
-export interface AxiosPromise<T = any> extends Promise<AxiosResponse> {}
+export interface AxiosPromise<T = any> extends Promise<AxiosResponse<T>> {}
 
 // 错误接口
 export interface AxiosError extends Error {
@@ -37,14 +37,14 @@ export interface AxiosError extends Error {
 
 // 描述主入口的接口
 export interface MAxios {
-  request(config: AxiosConfig): AxiosPromise
+  request<T = any>(config: AxiosConfig): AxiosPromise<T>
 
-  get(url: string, config?: AxiosConfig): AxiosPromise
+  get<T = any>(url: string, config?: AxiosConfig): AxiosPromise<T>
 
-  post(url: string, data?: any, config?: AxiosConfig): AxiosPromise
+  post<T = any>(url: string, data?: any, config?: AxiosConfig): AxiosPromise<T>
 }
 // 描述主入口的混合类型接口
 export interface AxiosInstance extends MAxios {
-  (config: AxiosConfig): AxiosPromise
-  (url: string, config?: AxiosConfig): AxiosPromise
+  <T = any>(config: AxiosConfig): AxiosPromise<T>
+  <T = any>(url: string, config?: AxiosConfig): AxiosPromise<T>
 }
