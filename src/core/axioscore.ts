@@ -2,7 +2,15 @@ import { MAxios, AxiosConfig, AxiosPromise } from '../types'
 import Axios from '../main/index'
 
 export default class AxiosCore implements MAxios {
-  request(config: AxiosConfig): AxiosPromise {
+  request(url: any, config?: any): AxiosPromise {
+    // 函数重载
+    if ('string' === typeof url) {
+      config = config || { method: 'GET' }
+      config.url = url
+    } else {
+      config = { ...url, ...config }
+    }
+
     return Axios(config)
   }
   get(url: string, config?: AxiosConfig | undefined): AxiosPromise {

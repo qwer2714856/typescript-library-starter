@@ -47,5 +47,4 @@ export interface MAxios {
 export interface AxiosInstance extends MAxios {
   (config: AxiosConfig): AxiosPromise
   (url: string, config?: AxiosConfig): AxiosPromise
-  (url: string, data?: any, config?: AxiosConfig): AxiosPromise
 }
