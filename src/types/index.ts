@@ -13,6 +13,7 @@ export interface AxiosConfig {
   headers?: any
   responseType?: XMLHttpRequestResponseType
   timeout?: number
+  [propName: string]: any
 }
 
 // 数据返回格式
@@ -40,6 +41,8 @@ export interface AxiosError extends Error {
 // 描述主入口的接口
 export interface MAxios {
   interceptors: Interceptors
+
+  defaults: AxiosConfig
 
   request<T = any>(config: AxiosConfig): AxiosPromise<T>
 

@@ -1,6 +1,7 @@
 import { MAxios, AxiosConfig, AxiosPromise, AxiosResponse } from '../types'
 import Axios from '../main/index'
 import AxiosInceptorcs from './inceptor'
+import mergConfig from './mergeconfig'
 
 export interface Interceptors {
   request: AxiosInceptorcs<AxiosConfig>
@@ -8,12 +9,14 @@ export interface Interceptors {
 }
 
 export default class AxiosCore implements MAxios {
+  defaults: AxiosConfig
   interceptors: Interceptors
-  constructor() {
+  constructor(df: AxiosConfig) {
     this.interceptors = {
       request: new AxiosInceptorcs<AxiosConfig>(),
       response: new AxiosInceptorcs<AxiosResponse>()
     }
+    this.defaults = df
   }
   request(url: any, config?: any): AxiosPromise {
     // 函数重载
@@ -23,6 +26,15 @@ export default class AxiosCore implements MAxios {
     } else {
       config = { ...url, ...config }
     }
+
+    // 合并配置文件
+    const mgConfig: any = mergConfig(this.defaults, config)
+    // 由于配置文件是由 commmon get post 组成 所以这里要做一次构建
+    const cfg: AxiosConfig = {
+      ...mgConfig.headers.common,
+      ...mgConfig.headers[config.method.toLowerCase()]
+    }
+    config.headers = cfg
 
     // 实现链式调用
     const chain: any[] = [
