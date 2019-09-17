@@ -58,6 +58,11 @@ export interface AxiosInstance extends MAxios {
   <T = any>(url: string, config?: AxiosConfig): AxiosPromise<T>
 }
 
+// 为axios提供静态创建方法
+export interface AxiosStatic extends AxiosInstance {
+  create(config?: AxiosConfig): AxiosInstance
+}
+
 // 定义拦截器
 export interface AxiosInceptor<T = any> {
   // number 做为拦截器的id用来删除用
