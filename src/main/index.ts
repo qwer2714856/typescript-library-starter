@@ -3,6 +3,7 @@ import xhr from '../core/xhr'
 import { buildUrl } from '../utils/url'
 import { transformRequest } from '../utils/data'
 import { processHeaders } from '../utils/headers'
+import transform from '../core/transform'
 
 function Axios(config: AxiosConfig): AxiosPromise {
   // 处理config
@@ -21,6 +22,8 @@ function processConfig(config: AxiosConfig): void {
   processHeaders(headers, data)
   // 处理data
   config.data = transformData(config)
+  // 经过transform处理
+  transform(config.data, config.headers, config.transformRequest)
 }
 
 function transformData(config: AxiosConfig): any {

@@ -9,7 +9,21 @@ const defaults: AxiosConfig = {
     common: {
       Accept: 'application/json,text/plain,*/*'
     }
-  }
+  },
+
+  transformRequest: [
+    function(data: any, headers: any): any {
+      console.log(data, headers, '====>>transformRequest')
+      return null
+    }
+  ],
+
+  transformResponse: [
+    function(data: any): any {
+      console.log(data, '====>>transformResponse')
+      return null
+    }
+  ]
 }
 
 const gMethod = ['get']

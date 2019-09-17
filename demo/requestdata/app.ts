@@ -18,6 +18,9 @@ Axios({
     headers:{
         // 'content-type':'application/x-www-form-urlencoded;charset=utf-8',
     },
+    transformRequest:(data, headers)=>{
+        console.log(data, '----->' ,headers, '=====---->');
+    }
 }).then((res)=>{
     console.log(res);
 }, (e:AxiosError) => {
