@@ -16,6 +16,7 @@ export interface AxiosConfig {
   [propName: string]: any
   transformRequest?: Transform | Transform[]
   transformResponse?: Transform | Transform[]
+  cancelToken?: CancelToken
 }
 
 // 数据返回格式
@@ -61,6 +62,12 @@ export interface AxiosInstance extends MAxios {
 // 为axios提供静态创建方法
 export interface AxiosStatic extends AxiosInstance {
   create(config?: AxiosConfig): AxiosInstance
+
+  cancelToken: CancelTokenStatic
+
+  cancel: CancelStatic
+
+  isCancel: (val: any) => boolean
 }
 
 // 定义拦截器
@@ -79,4 +86,33 @@ export interface RejectFn {
 }
 export interface Transform {
   (data: any, headers?: any): any
+}
+
+export interface CancelToken {
+  promise: Promise<string>
+  reason?: string
+
+  throwIfRequest(): void
+}
+export interface Canceler {
+  (message?: string): void
+}
+export interface CancelExe {
+  (canceler: Canceler): void
+}
+export interface CancelTokenSource {
+  token: CancelToken
+  cancel: Canceler
+}
+// 类类型，对构造函数的定义和静态方法的定义。
+export interface CancelTokenStatic {
+  new (c: CancelExe): CancelToken
+  source(): CancelTokenSource
+}
+
+export interface Cancel {
+  message?: string
+}
+export interface CancelStatic {
+  new (c: string): Cancel
 }

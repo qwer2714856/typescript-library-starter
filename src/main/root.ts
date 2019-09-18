@@ -3,6 +3,7 @@ import AxiosCore from '../core/axioscore'
 import { extend } from '../utils'
 import defaults from '../core/default'
 import mergConfig from '../core/mergeconfig'
+import CancelTK from '../cancel/cancelToken'
 // 对外的唯一出口
 function createInstanceAxios(config?: AxiosConfig): AxiosStatic {
   const Axios = new AxiosCore(mergConfig(defaults, config))
@@ -17,5 +18,6 @@ const axios = createInstanceAxios()
 axios.create = config => {
   return createInstanceAxios(config)
 }
+axios.cancelToken = CancelTK
 
 export default axios

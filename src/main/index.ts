@@ -6,6 +6,8 @@ import { processHeaders } from '../utils/headers'
 import transform from '../core/transform'
 
 function Axios(config: AxiosConfig): AxiosPromise {
+  // 如果重发请求直接跑异常
+  throwCancelRequest(config)
   // 处理config
   processConfig(config)
 
@@ -28,6 +30,12 @@ function processConfig(config: AxiosConfig): void {
 
 function transformData(config: AxiosConfig): any {
   return transformRequest(config.data)
+}
+
+function throwCancelRequest(config: AxiosConfig): void {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequest()
+  }
 }
 
 export default Axios

@@ -43,8 +43,11 @@ router.get('/params', (req,res) => {
 });
 
 router.post('/data', (req,res) => {
+    
+    setTimeout(()=>{
     res.status(200);
     res.json(req.body);
+},1000)
 })
 
 App.use(router);

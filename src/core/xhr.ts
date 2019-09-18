@@ -5,7 +5,15 @@ import { createAxiosErrorcs } from '../utils/axioserror'
 
 function xhr(config: AxiosConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { data = null, url, method = 'get', headers = {}, responseType, timeout = 0 } = config
+    const {
+      data = null,
+      url,
+      method = 'get',
+      headers = {},
+      responseType,
+      timeout = 0,
+      cancelToken
+    } = config
 
     let requestObj: XMLHttpRequest = new XMLHttpRequest()
 
@@ -27,6 +35,13 @@ function xhr(config: AxiosConfig): AxiosPromise {
         requestObj.setRequestHeader(i, headers[i])
       }
     })
+
+    if (cancelToken) {
+      cancelToken.promise.then((reason: string) => {
+        requestObj.abort()
+        reject(new Error('timeout'))
+      })
+    }
 
     // 接受数据
     requestObj.onreadystatechange = () => {
