@@ -17,6 +17,7 @@ export interface AxiosConfig {
   transformRequest?: Transform | Transform[]
   transformResponse?: Transform | Transform[]
   cancelToken?: CancelToken
+  withCredentials?: boolean
 }
 
 // 数据返回格式

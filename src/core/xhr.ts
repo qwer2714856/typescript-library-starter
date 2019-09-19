@@ -12,7 +12,8 @@ function xhr(config: AxiosConfig): AxiosPromise {
       headers = {},
       responseType,
       timeout = 0,
-      cancelToken
+      cancelToken,
+      withCredentials
     } = config
 
     let requestObj: XMLHttpRequest = new XMLHttpRequest()
@@ -26,6 +27,9 @@ function xhr(config: AxiosConfig): AxiosPromise {
     }
 
     requestObj.open(method.toUpperCase(), url!, true)
+
+    // 支持跨域携带cookie
+    requestObj.withCredentials = withCredentials!
 
     // 设置请求头
     Object.keys(headers).forEach(i => {

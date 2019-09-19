@@ -23,7 +23,8 @@ const defaults: AxiosConfig = {
       console.log(data, '====>>transformResponse')
       return null
     }
-  ]
+  ],
+  withCredentials: false
 }
 
 const gMethod = ['get']
