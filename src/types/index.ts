@@ -63,6 +63,8 @@ export interface MAxios {
   get<T = any>(url: string, config?: AxiosConfig): AxiosPromise<T>
 
   post<T = any>(url: string, data?: any, config?: AxiosConfig): AxiosPromise<T>
+
+  getUri(config?: AxiosConfig): string
 }
 // 描述主入口的混合类型接口
 export interface AxiosInstance extends MAxios {
@@ -79,6 +81,16 @@ export interface AxiosStatic extends AxiosInstance {
   cancel: CancelStatic
 
   isCancel: (val: any) => boolean
+
+  all<T = any>(promise: Array<T | Promise<T>>): Promise<T[]>
+
+  spread<T = any, R = any>(callback: (...args: T[]) => R): (arr: T[]) => R
+
+  Axios: AxiosClassStatic
+}
+
+export interface AxiosClassStatic {
+  new (config: AxiosConfig): MAxios
 }
 
 // 定义拦截器

@@ -9,6 +9,9 @@ export interface Interceptors {
 }
 
 export default class AxiosCore implements MAxios {
+  getUri(config?: AxiosConfig): string {
+    return ''
+  }
   defaults: AxiosConfig
   interceptors: Interceptors
   constructor(df: AxiosConfig) {

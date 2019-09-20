@@ -20,4 +20,14 @@ axios.create = config => {
 }
 axios.cancelToken = CancelTK
 
+axios.all = function(promises) {
+  return Promise.all(promises)
+}
+axios.spread = function(callback) {
+  return function(arr) {
+    return callback.apply(null, arr)
+  }
+}
+axios.Axios = AxiosCore
+
 export default axios
