@@ -32,3 +32,10 @@ export function isFormData(val: any): val is FormData {
 export function isUrlSearchParams(val: any): val is URLSearchParams {
   return val instanceof URLSearchParams
 }
+
+export function isAbUrl(url: string): boolean {
+  return url.includes('//')
+}
+export function combineUrl(baseUrl: string, url?: string): string {
+  return url ? baseUrl + url : baseUrl
+}

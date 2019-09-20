@@ -11,7 +11,7 @@ Axios.interceptors.response.use((res:AxiosResponse)=>{
     return res
 })
 Axios({
-    url: '/data',
+    url: 'data',
     method: 'POST',
     data: {
         a:1,
@@ -45,7 +45,8 @@ Axios({
     params:{
         a:1,
         d:2,
-    }
+    },
+    baseUrl: '/'
 }).then((res)=>{
     console.log(res);
 }, (e:AxiosError) => {

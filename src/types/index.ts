@@ -26,6 +26,8 @@ export interface AxiosConfig {
   vd?: (val: number) => boolean
   // 自定义解析规则
   pmSr?: (pms: any) => string
+  // base url
+  baseUrl?: string
 }
 
 // 数据返回格式

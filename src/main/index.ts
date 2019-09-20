@@ -4,6 +4,7 @@ import { buildUrl } from '../utils/url'
 import { transformRequest } from '../utils/data'
 import { processHeaders } from '../utils/headers'
 import transform from '../core/transform'
+import { isAbUrl, combineUrl } from '../utils'
 
 function Axios(config: AxiosConfig): AxiosPromise {
   // 如果重发请求直接跑异常
@@ -17,7 +18,12 @@ function Axios(config: AxiosConfig): AxiosPromise {
 
 function processConfig(config: AxiosConfig): void {
   // 处理params
-  const { url, params, headers = {}, data, pmSr } = config
+  let { url, params, headers = {}, data, pmSr, baseUrl } = config
+  // base url
+
+  if (baseUrl && !isAbUrl(url!)) {
+    url = combineUrl(baseUrl, url)
+  }
   // 格式换params
   config.url = buildUrl(url!, params, pmSr)
   // 处理header 加默认的content-type
