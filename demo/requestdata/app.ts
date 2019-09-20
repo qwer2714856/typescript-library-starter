@@ -1,4 +1,5 @@
 import Axios,{ AxiosError, AxiosConfig, AxiosResponse } from '../../src/index';
+import qs from 'qs';
 let cancel;
 Axios.interceptors.request.use((config:AxiosConfig)=>{
     console.log(123);
@@ -35,6 +36,14 @@ Axios({
     vd:(num)=>{
         console.log(num, '====--->>');
         return num >= 200 && num <= 300
+    },
+    pmSr:(params)=>{
+        console.log(params, '-----------');
+        return qs.stringify(params);
+    },
+    params:{
+        a:1,
+        d:2,
     }
 }).then((res)=>{
     console.log(res);

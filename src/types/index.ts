@@ -24,6 +24,8 @@ export interface AxiosConfig {
   onDownloadProgress?: (e: ProgressEvent) => void
   auth?: Auth
   vd?: (val: number) => boolean
+  // 自定义解析规则
+  pmSr?: (pms: any) => string
 }
 
 // 数据返回格式

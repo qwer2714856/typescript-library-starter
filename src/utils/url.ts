@@ -1,39 +1,43 @@
 import { isArray, isObject, isDate } from './index'
 
-export const buildUrl = (url: string, params?: any): string => {
+export const buildUrl = (url: string, params?: any, sr?: (ps: any) => string): string => {
   let result: string[] = []
   let resultUrl = url
 
   if (!params || !isObject(params)) {
     return url
   } else {
-    Object.keys(params).forEach(key => {
-      const V: any = params[key]
+    if (sr) {
+      result = [sr(params)]
+    } else {
+      Object.keys(params).forEach(key => {
+        const V: any = params[key]
 
-      if (void 0 === V || null === V) {
-        return
-      }
-
-      let ay: any[] = []
-
-      if (isArray(V)) {
-        ay = V
-        key += '[]'
-      } else {
-        ay = [V]
-      }
-
-      ay.forEach(v => {
-        if (isObject(v)) {
-          v = JSON.stringify(v)
-        } else if (isDate(v)) {
-          v = v.toISOString()
+        if (void 0 === V || null === V) {
+          return
         }
-        // 这里如果加上对日期的判断，不能用返回boolean 只能用 xxx is Date 类型谓词保护。
-        // 详情移步到utils isDate实现使用了这种断言{//在花括号里面编辑器能推断出类型}
-        result.push(`${encode(key)}=${encode(v)}`)
+
+        let ay: any[] = []
+
+        if (isArray(V)) {
+          ay = V
+          key += '[]'
+        } else {
+          ay = [V]
+        }
+
+        ay.forEach(v => {
+          if (isObject(v)) {
+            v = JSON.stringify(v)
+          } else if (isDate(v)) {
+            v = v.toISOString()
+          }
+          // 这里如果加上对日期的判断，不能用返回boolean 只能用 xxx is Date 类型谓词保护。
+          // 详情移步到utils isDate实现使用了这种断言{//在花括号里面编辑器能推断出类型}
+          result.push(`${encode(key)}=${encode(v)}`)
+        })
       })
-    })
+    }
   }
 
   if (result.length) {

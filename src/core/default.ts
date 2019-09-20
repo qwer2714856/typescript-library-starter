@@ -24,7 +24,10 @@ const defaults: AxiosConfig = {
       return null
     }
   ],
-  withCredentials: false
+  withCredentials: false,
+  vd: num => {
+    return num <= 300 && num >= 200
+  }
 }
 
 const gMethod = ['get']
