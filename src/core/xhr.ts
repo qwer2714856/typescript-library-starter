@@ -20,7 +20,8 @@ function xhr(config: AxiosConfig): AxiosPromise {
       xsrfCookieName,
       xsrfHeaderName,
       onUploadProgress,
-      onDownloadProgress
+      onDownloadProgress,
+      auth
     } = config
 
     let requestObj: XMLHttpRequest = new XMLHttpRequest()
@@ -52,6 +53,11 @@ function xhr(config: AxiosConfig): AxiosPromise {
     // 如果是FormData修改头信息 没有默认发的就是流
     if (isFormData(data)) {
       delete headers['Content-Type']
+    }
+
+    // auth 头
+    if (auth) {
+      headers['authorization'] = 'Basic ' + btoa(auth.username + ':' + auth.password)
     }
 
     // 设置请求头

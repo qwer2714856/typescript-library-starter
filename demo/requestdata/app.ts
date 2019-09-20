@@ -28,6 +28,10 @@ Axios({
     xsrfCookieName: 'admin',
     xsrfHeaderName: 'nima-wsp',
     withCredentials: true,
+    auth:{
+        username:'123',
+        password:'234'
+    }
 }).then((res)=>{
     console.log(res);
 }, (e:AxiosError) => {

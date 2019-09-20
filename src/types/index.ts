@@ -22,6 +22,7 @@ export interface AxiosConfig {
   xsrfHeaderName?: string
   onUploadProgress?: (e: ProgressEvent) => void
   onDownloadProgress?: (e: ProgressEvent) => void
+  auth?: Auth
 }
 
 // 数据返回格式
