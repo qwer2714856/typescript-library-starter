@@ -18,6 +18,8 @@ export interface AxiosConfig {
   transformResponse?: Transform | Transform[]
   cancelToken?: CancelToken
   withCredentials?: boolean
+  xsrfCookieName?: string
+  xsrfHeaderName?: string
 }
 
 // 数据返回格式

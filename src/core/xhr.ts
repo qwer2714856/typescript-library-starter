@@ -2,6 +2,8 @@ import { AxiosConfig, AxiosPromise, AxiosResponse } from '../types'
 import { parseHeaders } from '../utils/headers'
 import { transformResponse } from '../utils/data'
 import { createAxiosErrorcs } from '../utils/axioserror'
+import { isUrlSameOrigin } from '../utils/url'
+import cookie from '../utils/cookie'
 
 function xhr(config: AxiosConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
@@ -13,7 +15,9 @@ function xhr(config: AxiosConfig): AxiosPromise {
       responseType,
       timeout = 0,
       cancelToken,
-      withCredentials
+      withCredentials,
+      xsrfCookieName,
+      xsrfHeaderName
     } = config
 
     let requestObj: XMLHttpRequest = new XMLHttpRequest()
@@ -30,6 +34,17 @@ function xhr(config: AxiosConfig): AxiosPromise {
 
     // 支持跨域携带cookie
     requestObj.withCredentials = withCredentials!
+    debugger
+    // xsrf
+    // 判断是否同域
+    if ((withCredentials || !isUrlSameOrigin(url!)) && xsrfCookieName) {
+      const token = cookie.read(xsrfCookieName)
+
+      // 设置header
+      if (token && xsrfHeaderName) {
+        headers[xsrfHeaderName] = token
+      }
+    }
 
     // 设置请求头
     Object.keys(headers).forEach(i => {

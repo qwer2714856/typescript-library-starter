@@ -24,7 +24,10 @@ Axios({
     cancelToken: new Axios.cancelToken((c)=>{
         cancel = c;
         console.log('already in')
-    })
+    }),
+    xsrfCookieName: 'admin',
+    xsrfHeaderName: 'nima-wsp',
+    withCredentials: true,
 }).then((res)=>{
     console.log(res);
 }, (e:AxiosError) => {

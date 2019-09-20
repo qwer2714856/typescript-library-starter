@@ -62,3 +62,22 @@ export function encode(val: string): string {
 
   return rt
 }
+
+const a = document.createElement('a')
+const currentUrl = crtA(window.location.href)
+// 判断同域名请求还是异域请求
+export function crtA(url: string): any {
+  a.setAttribute('href', url)
+  const { protocol, host } = a
+
+  return {
+    protocol,
+    host
+  }
+}
+
+export function isUrlSameOrigin(requestUrl: string): boolean {
+  const { protocol, host } = crtA(requestUrl)
+
+  return currentUrl.protocol === protocol && currentUrl.host === host
+}
