@@ -21,7 +21,8 @@ function xhr(config: AxiosConfig): AxiosPromise {
       xsrfHeaderName,
       onUploadProgress,
       onDownloadProgress,
-      auth
+      auth,
+      vd
     } = config
 
     let requestObj: XMLHttpRequest = new XMLHttpRequest()
@@ -112,6 +113,9 @@ function xhr(config: AxiosConfig): AxiosPromise {
     // 对返回数据加上异常处理
     function responseProcess(response: AxiosResponse): void {
       const { status } = response
+      if (vd) {
+        vd(status)
+      }
       if (status >= 200 && status < 300) {
         resolve(response)
       } else {

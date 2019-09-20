@@ -23,6 +23,7 @@ export interface AxiosConfig {
   onUploadProgress?: (e: ProgressEvent) => void
   onDownloadProgress?: (e: ProgressEvent) => void
   auth?: Auth
+  vd?: (val: number) => boolean
 }
 
 // 数据返回格式

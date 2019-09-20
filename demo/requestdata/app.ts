@@ -31,6 +31,10 @@ Axios({
     auth:{
         username:'123',
         password:'234'
+    },
+    vd:(num)=>{
+        console.log(num, '====--->>');
+        return num >= 200 && num <= 300
     }
 }).then((res)=>{
     console.log(res);
