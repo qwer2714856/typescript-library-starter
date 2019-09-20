@@ -28,3 +28,7 @@ export function extend<T, U>(to: T, from: U): T & U {
 export function isFormData(val: any): val is FormData {
   return void 0 !== val && val instanceof FormData
 }
+
+export function isUrlSearchParams(val: any): val is URLSearchParams {
+  return val instanceof URLSearchParams
+}

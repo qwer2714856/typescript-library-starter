@@ -1,6 +1,7 @@
 import Axios,{ AxiosError, AxiosConfig, AxiosResponse } from '../../src/index';
 import qs from 'qs';
 let cancel;
+let sh = new URLSearchParams();
 Axios.interceptors.request.use((config:AxiosConfig)=>{
     console.log(123);
     return config;
