@@ -20,6 +20,8 @@ export interface AxiosConfig {
   withCredentials?: boolean
   xsrfCookieName?: string
   xsrfHeaderName?: string
+  onUploadProgress?: (e: ProgressEvent) => void
+  onDownloadProgress?: (e: ProgressEvent) => void
 }
 
 // 数据返回格式
@@ -118,4 +120,9 @@ export interface Cancel {
 }
 export interface CancelStatic {
   new (c: string): Cancel
+}
+
+export interface Auth {
+  username: string
+  password: string
 }

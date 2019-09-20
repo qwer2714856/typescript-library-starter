@@ -4,6 +4,7 @@ import { transformResponse } from '../utils/data'
 import { createAxiosErrorcs } from '../utils/axioserror'
 import { isUrlSameOrigin } from '../utils/url'
 import cookie from '../utils/cookie'
+import { isFormData } from '../utils'
 
 function xhr(config: AxiosConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
@@ -17,7 +18,9 @@ function xhr(config: AxiosConfig): AxiosPromise {
       cancelToken,
       withCredentials,
       xsrfCookieName,
-      xsrfHeaderName
+      xsrfHeaderName,
+      onUploadProgress,
+      onDownloadProgress
     } = config
 
     let requestObj: XMLHttpRequest = new XMLHttpRequest()
@@ -34,7 +37,7 @@ function xhr(config: AxiosConfig): AxiosPromise {
 
     // 支持跨域携带cookie
     requestObj.withCredentials = withCredentials!
-    debugger
+
     // xsrf
     // 判断是否同域
     if ((withCredentials || !isUrlSameOrigin(url!)) && xsrfCookieName) {
@@ -44,6 +47,11 @@ function xhr(config: AxiosConfig): AxiosPromise {
       if (token && xsrfHeaderName) {
         headers[xsrfHeaderName] = token
       }
+    }
+
+    // 如果是FormData修改头信息 没有默认发的就是流
+    if (isFormData(data)) {
+      delete headers['Content-Type']
     }
 
     // 设置请求头
@@ -90,6 +98,10 @@ function xhr(config: AxiosConfig): AxiosPromise {
     requestObj.ontimeout = () => {
       reject(new Error('timeout'))
     }
+
+    // 进度事件的绑定
+    onDownloadProgress && (requestObj.onprogress = onDownloadProgress)
+    onUploadProgress && (requestObj.upload.onprogress = onUploadProgress)
 
     // 对返回数据加上异常处理
     function responseProcess(response: AxiosResponse): void {

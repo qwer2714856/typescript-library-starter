@@ -24,3 +24,7 @@ export function extend<T, U>(to: T, from: U): T & U {
   }
   return to as T & U
 }
+
+export function isFormData(val: any): val is FormData {
+  return void 0 !== val && val instanceof FormData
+}
