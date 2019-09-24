@@ -39,7 +39,7 @@ function processConfig(config: AxiosConfig): void {
 const mainAxios: MainAxios = (config: AxiosConfig) => {
   processConfig(config)
 
-  xhr(config)
+  return xhr(config)
 }
 
 export default mainAxios

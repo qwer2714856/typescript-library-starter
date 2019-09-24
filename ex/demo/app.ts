@@ -17,6 +17,10 @@ axios({
     headers: {
         'content-Type':'application/json;charset=utf-8',
     },
+}).then((res)=>{
+    console.log(res);
+},()=>{
+    // todo
 })
 // const arr = new Int32Array([21, 31]);
 
