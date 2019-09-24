@@ -1,1 +1,6 @@
-console.log(123);
+import axios from '../../src/index';
+
+axios({
+    url: '/api',
+    method: 'GET',
+})
