@@ -1,5 +1,6 @@
 import { AxiosConfig, AxiosPromise, AxiosResponse } from '../types/index'
-import { parseHeaders } from '../utils/base';
+import { parseHeaders } from '../utils/base'
+import { transformData } from '../utils/data'
 
 /**
  * 主请求模块
@@ -35,7 +36,7 @@ export function xhr(config: AxiosConfig): AxiosPromise {
       const responseData =
         responseType && responseType !== 'text' ? Request.response : Request.responseText
       resolve({
-        data: responseData,
+        data: transformData(responseData),
         status: Request.status,
         statusText: Request.statusText,
         headers: parseHeaders(responseHeaders),

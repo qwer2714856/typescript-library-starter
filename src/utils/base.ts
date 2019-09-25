@@ -19,7 +19,7 @@ export function parseHeaders(headers: string): any {
   headers.split('\r\n').forEach(v => {
     let [key, val] = v.split(':')
 
-    key && (rs[key] = val)
+    key.trim() && (rs[key.trim()] = val.trim())
   })
 
   return rs

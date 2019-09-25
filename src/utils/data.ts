@@ -12,3 +12,15 @@ export function transformRequestData(data: any): any {
 
   return rt
 }
+
+// 解析data
+export function transformData(data: any): any {
+  if (typeof data === 'string') {
+    try {
+      data = JSON.parse(data)
+    } catch (e) {
+      // todo
+    }
+  }
+  return data
+}
