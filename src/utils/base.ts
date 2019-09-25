@@ -8,3 +8,19 @@ export function normalizeHeaderName(headers: any, name: string): void {
     })
   }
 }
+
+export function parseHeaders(headers: string): any {
+  if (!headers) {
+    return headers
+  }
+
+  let rs = Object.create(null)
+
+  headers.split('\r\n').forEach(v => {
+    let [key, val] = v.split(':')
+
+    key && (rs[key] = val)
+  })
+
+  return rs
+}
