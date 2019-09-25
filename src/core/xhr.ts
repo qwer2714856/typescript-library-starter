@@ -1,4 +1,5 @@
 import { AxiosConfig, AxiosPromise, AxiosResponse } from '../types/index'
+import { parseHeaders } from '../utils/base';
 
 /**
  * 主请求模块
@@ -37,7 +38,7 @@ export function xhr(config: AxiosConfig): AxiosPromise {
         data: responseData,
         status: Request.status,
         statusText: Request.statusText,
-        headers: responseHeaders,
+        headers: parseHeaders(responseHeaders),
         config,
         request: Request
       })
